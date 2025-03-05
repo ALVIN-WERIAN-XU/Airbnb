@@ -1,6 +1,7 @@
 # Airbnb
 
 Abstract
+
 Airbnb is a platform that offers accommodation rental services and has gradually
 become one of the mainstream options for travel lodging worldwide. As Airbnb
 continues to gain popularity, this study aims to recommend properties from its
@@ -17,6 +18,7 @@ system is evaluated by generating synthetic labels and calculating metrics such 
 accuracy and loss.
 
 1.Introduction
+
 With the rise of the sharing economy, Airbnb, as one of the largest accommodation
 sharing platforms, has become a preferred choice for many travelers. When selecting
 Airbnb properties, users often seek accommodations that align with their specific
@@ -42,6 +44,7 @@ criteria (e.g., property type, amenities), enhancing the overall user experience
 2.Background
 
 2.1 Industry Background of Airbnb
+
 Since its establishment in 2008, Airbnb has been dedicated to creating an online
 platform that connects short-term rental hosts with guests. Over the years, it has
 rapidly grown into a global leader in the shared accommodation industry. Compared
@@ -54,6 +57,7 @@ become increasingly prominent. As a result, designing intelligent and personaliz
 recommendation systems based on user needs has emerged as a key focus of research.
 
 2.2 Challenges in Recommendation Systems
+
 Existing recommendation systems primarily rely on user behavior data and explicit
 preferences. However, this not only violates user privacy, but the multimodal data
 of listings adds complexity to the design of recommender systems. Among these
@@ -63,6 +67,7 @@ such visual information. Moreover, integrating multimodal data while improving t
 accuracy and relevance of recommendations remains a critical challenge.
 
 2.3 Applications of Deep Learning in Recommendation Systems
+
 In recent years, deep convolutional neural networks (CNNs) and natural language
 processing (NLP) have demonstrated immense potential across various fields. CNNs
 excel at extracting image features, capturing high-dimensional characteristics, while
@@ -73,19 +78,22 @@ Airbnb’s data, practical implementation still faces significant challenges, su
 computational complexity and model interpretability.
 
 2.4 Innovation
-To address the challenges mentioned above, this study adopts a multimodal recommendation system framework that integrates deep learning techniques. By extracting image
-and textual features and combining them with other property attributes, the system
+
+To address the challenges mentioned above, this study adopts a multimodal recommendation system framework that integrates deep learning techniques. 
+By extracting image and textual features and combining them with other property attributes, the system
 aims to deliver personalized recommendations to users. Leveraging the proposed
 models and techniques, the study seeks to explore how to efficiently utilize multimodal
 data to enhance the performance of recommendation systems.
 
 3.Data
+
 This dataset includes information such as property type, property description, room
 type, amenities, bedroom configuration, city location, and room thumbnail links
 (“thumbnail_URL”). During the data preprocessing stage, initial data cleaning was
 performed, and some variables were further refined for improved usability.
 
 3.1 Textual Data Quantification with NLP
+
 To simplify the representation of property descriptions in the dataset, this project
 introduced a new variable called “sentiment_score”. In the original dataset, property
 descriptions were presented in textual form, which could not be directly used for
@@ -98,6 +106,7 @@ used to represent the descriptions of different properties. Meanwhile, the ‘de
 variable is removed at this stage.
 
 3.2 Handling Missing Values
+
 It is noticeable that the original data contains some missing values, specifically listings
 that did not provide room images (i.e., “thumbnail URL” was missing). Since the goal
 of this study is to extract information and perform analysis based on images, listings
@@ -105,6 +114,7 @@ without images could not be effectively included in the analysis. Consequently, 
 records with missing images were removed from the dataset.
 
 3.3 Remove Unused Variables
+
 The dataset contains complex variables, so some irrelevant variables will be removed
 during the data preprocessing stage. Since the core of this recommendation system is
 to match properties based on keywords and images provided by users, certain variables
@@ -112,6 +122,7 @@ to match properties based on keywords and images provided by users, certain vari
 filtering criteria by users and will therefore be excluded.
 
 3.4 Split Dataset
+
 Since the recommendation mechanism in this study aims to identify properties that best
 match user preferences from the database, part of the data needs to be used for model
 training, while the remaining data serves as the database for the recommendation
@@ -125,6 +136,7 @@ two separate files, “train_data” and “database_data”, to be used in diff
 model training and database construction, respectively.
 
 3.5 Data Augmentation
+
 To enhance the robustness and generalization capability of the model, this study applied
 various data augmentation techniques to the training data. These included horizontal
 flipping and random rotation of images, designed to simulate potential directional
@@ -135,6 +147,7 @@ Furthermore, the data was combined with image features by incorporating onehot 
 resulting in a comprehensive feature representation.
 
 4 Methodology
+
 Given the high complexity of images in the dataset and the significant variation in their
 features, this project explores various image feature recognition techniques to address
 these challenges. Based on the characteristics of the dataset, a custom convolutional
@@ -149,6 +162,7 @@ importance of the principal components and summed to derive the final importance
 score for each feature.
 
 4.1 Custom Convolutional Neural Network
+
 To further explore the data in this dataset, the project initially employed a custom
 convolutional neural network (CNN) as a preliminary attempt. However, due to its
 simplistic design—comprising only three convolutional layers and one fully connected
@@ -158,6 +172,7 @@ textures, while lacking the ability to effectively represent complex scenes. As 
 the custom CNN proved inadequate for robust image feature extraction.
 
 4.2 ResNet50 Model
+
 ResNet50 is capable of learning features at deeper levels while maintaining training
 stability, making it highly effective for extracting higher-order features. Additionally,
 its relatively low computational cost makes it well-suited for the needs of this study
@@ -171,6 +186,7 @@ aspects. While the output images often exhibit high similarity scores with the i
 images, they are not truly similar in terms of meaningful features.
 
 4.3 Fine-Tuning Model from ResNet50 Model
+
 To address the specific requirements of this study and overcome the limitations of
 the ResNet50 model in handling the task, this research fine-tuned ResNet50 to better
 adapt to the extraction of property image features. The fine-tuned model removes the
@@ -185,6 +201,7 @@ of the fine-tuned model is to minimize the binary cross-entropy loss and optimiz
 model’s performance.
 
 4.4 Recommendation System Design
+
 To achieve property recommendations based on user inputs, this study designed a
 recommendation system that combines property images and tabular features to identify
 the most relevant listings through similarity calculations. The system first preprocesses
@@ -202,17 +219,20 @@ the system returns the top 5 most similar properties, including details such as 
 ID, type, image, and more.
 
 5. Analysis and Discussion
+
 This section explains how the aforementioned methods were used to analyze the
 data and provides a detailed overview of the program’s operational logic. Since the
 custom CNN model was only utilized for exploratory purposes and its performance
 was unsatisfactory, it will not be discussed in detail.
-Additionally, due to the large size of the dataset, downloading images is timeconsuming, and running the program and training the model incur significant computational costs. Therefore, this study randomly selected and downloaded 10,000
+Additionally, due to the large size of the dataset, downloading images is timeconsuming, and running the program and training the model 
+incur significant computational costs. Therefore, this study randomly selected and downloaded 10,000
 images from the ‘train_data’ dataset, which were then split into two parts in a 2:1
 ratio: one for model construction and the other for building the property database.
 After completing the model setup and tuning, the model was further applied to the
 full dataset (full train_dataset) for additional debugging and refinement.
 
 5.1 Dimensionality Reduction and Feature Importance Visualization
+
 The dataset is composed of the following features:
 • Image features: Extracted using the pre-trained ResNet50 model, resulting in
 2048-dimensional feature vectors.
@@ -235,6 +255,7 @@ impact of noise on model performance during fitting. Hence, these variables will
 used as input features (‘x’) in the subsequent model tuning process
 
 5.2 Fine Tuning Model
+
 In this project, the pre-trained ResNet50 was selected as the base model, with its
 weights already trained on the ImageNet dataset. This approach significantly reduces
 training time while enhancing the model’s ability to capture general image features
@@ -258,6 +279,7 @@ and very low loss on the validation set (Table 2), further indicating the potent
 occurrence of overfitting.
 
 5.3 Normalization
+
 To enhance the model’s performance, numerical features were normalized. Normalization allows the model to better leverage information from different features, thereby
 improving the accuracy of classification and recommendations. This approach is
 particularly effective for the multi-modal dataset used in this study, which combines
@@ -273,6 +295,7 @@ enhancement in the model’s performance. Additionally, the model’s accuracy a
 loss also has been a marked improvement (Table 10).
 
 6. Conclusion
+
 This study used convolutional neural networks (CNNs) and other techniques to
 deeply analyze the features of Airbnb property images and develop a property
 recommendation mechanism. Through initial data cleaning, PCA-based dimensionality reduction, and feature selection, the complexity of the data was effectively
@@ -281,6 +304,7 @@ comprehensively evaluating the model’s accuracy, loss, and output image simila
 this study successfully developed a property recommendation system capable of
 effectively identifying user needs, providing reliable technical support for personalized
 recommendations.
+
 Overall, the model without normalization exhibited clear overfitting issues, while
 the fine-tuned model with normalization demonstrated stronger generalization
 capabilities, despite slightly lower similarity and accuracy. This indicates that the
@@ -296,8 +320,7 @@ relatively small for image analysis tasks. If all 74,112 entries were used for m
 training and additional data (e.g., 200,000 more property records) were introduced as
 the database, the model’s performance and capability could be significantly enhanced,
 providing stronger support for the accuracy and reliability of the recommendation
-system.
-This project has provided us with valuable insights into deep learning techniques and their application to real-world problems. We would like to express our
+system.This project has provided us with valuable insights into deep learning techniques and their application to real-world problems. We would like to express our
 heartfelt gratitude to Prof. Kathryn and the TAs for their guidance and support
 throughout the project and the paper.
 
